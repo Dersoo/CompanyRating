@@ -1,0 +1,32 @@
+﻿<h1 mat-dialog-title>Add Company form</h1>
+<div mat-dialog-content>
+  <form [formGroup]="companyForm">
+    <mat-form-field hidden="true" class="example-full-width" appearance="fill">
+      <input formControlName="id" matInput>
+    </mat-form-field>
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Company Name</mat-label>
+      <input formControlName="name" matInput placeholder="Ex. Pizza" value="Sushi">
+    </mat-form-field>
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Company Initial Rating</mat-label>
+      <input formControlName="rating" matInput placeholder="Ex. Pizza" value="Sushi">
+    </mat-form-field>
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Country</mat-label>
+      <mat-select formControlName="companyCountry" #Countries (selectionChange)="onChange(Countries.value)">
+        <mat-option *ngFor="let country of countries" [value]="country">{{country}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>City</mat-label>
+      <mat-select formControlName="location" [compareWith]="locationComparisonFunction">
+        <mat-option *ngFor="let location of locationsOfCurrentCountry" [value]="location">{{location.city}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions [align]="'end'">
+<button mat-raised-button color="warn" mat-dialog-close="">Close</button>
+<button mat-raised-button color="primary" (click)="addCompany()">{{ actionBtn }}</button>
+</div>

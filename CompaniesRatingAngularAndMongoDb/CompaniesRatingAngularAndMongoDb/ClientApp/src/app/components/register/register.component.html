@@ -1,0 +1,113 @@
+﻿<div class="wrapper fadeInDown">
+  <form class="form-signin" [formGroup]="form" (submit)="register()" >
+    <div class="container-fluid">
+      <h2 class="form-signin-heading">Register</h2>
+      <br>
+      <div class="form-group">
+        <label for="firstName" class="sr-only control-label">First Name</label>
+        <input type="text" formControlName="firstName" id="firstName" name="firstName" class="form-control" placeholder="First Name" required autofocus>
+        <div *ngIf="form.get('firstName')?.invalid && (form.get('firstName')?.dirty || form.get('firstName')?.touched)" class="alert alert-danger">
+          <div *ngIf="form.get('firstName')?.errors?.['required']">
+            First Name is required.
+          </div>
+          <div *ngIf="form.get('firstName')?.errors?.['minlength']">
+            First Name must be at least 5 characters long.
+          </div>
+          <div *ngIf="form.get('firstName')?.errors?.['maxlength']">
+            First Name must be less than 12 characters long.
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="form-group">
+        <label for="lastName" class="sr-only control-label">Last Name</label>
+        <input type="text" formControlName="lastName" id="lastName" name="lastName" class="form-control" placeholder="Last Name" required autofocus>
+        <div *ngIf="form.get('lastName')?.invalid && (form.get('lastName')?.dirty || form.get('lastName')?.touched)" class="alert alert-danger">
+          <div *ngIf="form.get('lastName')?.errors?.['required']">
+            Last Name is required.
+          </div>
+          <div *ngIf="form.get('lastName')?.errors?.['minlength']">
+            Last Name must be at least 5 characters long.
+          </div>
+          <div *ngIf="form.get('lastName')?.errors?.['maxlength']">
+            Last Name must be less than 12 characters long.
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="form-group">
+        <label for="email" class="sr-only">Email</label>
+        <input type="email" formControlName="email" id="email" name="email" class="form-control" placeholder="Email" required autofocus>
+        <div *ngIf="form.get('email')?.invalid && (form.get('email')?.dirty || form.get('email')?.touched)" class="alert alert-danger">
+          <div *ngIf="form.get('email')?.errors?.['required']">
+            Email is required.
+          </div>
+          <div *ngIf="form.get('email')?.errors?.['email']">
+            The entered mail must match the formats.
+          </div>
+          <div *ngIf="form.get('email')?.errors?.['maxlength']">
+            Email must be less than 15 characters long.
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="form-group">
+        <label for="age" class="sr-only">Age</label>
+        <input type="number" formControlName="age" id="age" name="age" class="form-control" placeholder="Age" required autofocus>
+        <div *ngIf="form.get('age')?.invalid && (form.get('age')?.dirty || form.get('age')?.touched)" class="alert alert-danger">
+          <div *ngIf="form.get('age')?.errors?.['required']">
+            Age is required.
+          </div>
+          <div *ngIf="form.get('age')?.errors?.['min']">
+            Age must not be less than 12 years old.
+          </div>
+          <div *ngIf="form.get('age')?.errors?.['max']">
+            Age should not be more than 99 years old.
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="form-group">
+        <label for="login" class="sr-only">Login</label>
+        <input type="text" formControlName="login" id="login" name="login" class="form-control" placeholder="Login" required autofocus>
+        <div *ngIf="form.get('login')?.invalid && (form.get('login')?.dirty || form.get('login')?.touched)" class="alert alert-danger">
+          <div *ngIf="form.get('login')?.errors?.['required']">
+            Login is required.
+          </div>
+          <div *ngIf="form.get('login')?.errors?.['minlength']">
+            Login must be at least 5 characters long.
+          </div>
+          <div *ngIf="form.get('login')?.errors?.['maxlength']">
+            Login must be less than 15 characters long.
+          </div>
+          <div *ngIf="form.get('login')?.errors?.loginNotAvailable">
+            This login is already used by another user.
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="form-group">
+        <label for="password" class="sr-only">Password</label>
+        <input type="password" formControlName="password" id="password" name="password" class="form-control" placeholder="Password" required>
+        <div *ngIf="form.get('password')?.invalid && (form.get('password')?.dirty || form.get('password')?.touched)" class="alert alert-danger">
+          <div *ngIf="form.get('password')?.errors?.['required']">
+            Password is required.
+          </div>
+          <div *ngIf="form.get('password')?.errors?.['pattern']">
+            <pre>
+              The password must match the following criteria:
+              -At least 8 characters in length;
+              -Contain special characters (!@#$%^&);
+              -Contain at least one number;
+              -Contain at least 2 char;
+              -Contain at least one lowercase char;
+              -Contain at least one uppercase char;
+            </pre>
+          </div>
+        </div>
+      </div>
+      <br>
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
+    </div>
+  </form>
+</div>

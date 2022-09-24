@@ -1,0 +1,89 @@
+﻿<h1 mat-dialog-title>{{editData.name}}</h1>
+<div mat-dialog-content>
+  <hr>
+  <h2>Company name: {{editData.name}}</h2>
+  <h2>Company rating: {{editData.rating}}</h2>
+  <h2>Location:
+    {{editData.location.city}}
+    <ng-container *ngIf="editData.location.country">,</ng-container>
+    {{editData.location.country}}
+  </h2>
+  <div *ngIf="editData.description">
+    <h2>Description:</h2>
+    <textarea style="resize: none;" readonly cols="150" rows="10">{{editData.description}}</textarea>
+  </div>
+  <hr>
+  <div *ngIf="canUserAddReview | async; else hasVoted">
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <button mat-raised-button color="primary" id="collapsible">Add feedback</button>
+      </mat-expansion-panel-header>
+      <ng-template matExpansionPanelContent>
+        <review [companyId]="editData.id" (reviewDoneEvent)="ngOnInit()"></review>
+      </ng-template>
+    </mat-expansion-panel>
+  </div>
+  <ng-template #hasVoted>
+    <span>You have been voted.</span>
+    <div *ngIf="userObs | async as user; else noReview">
+      <div *ngIf="getReviewOfCurrentUser(user.id) as review">
+        <span>{{review.dateOfReview}}</span>
+        <span title="Salary" class="numberCircle ">{{review.assessments.salary}}</span>
+        <span title="Office" class="numberCircle ">{{review.assessments.office}}</span>
+        <span title="Education" class="numberCircle ">{{review.assessments.education}}</span>
+        <span title="Career" class="numberCircle ">{{review.assessments.career}}</span>
+        <span title="Community" class="numberCircle ">{{review.assessments.community}}</span>
+        <span>{{review.comment}}</span>
+      </div>
+    </div>
+    <ng-template #noReview>
+      <span>Not found</span>
+    </ng-template>
+  </ng-template>
+  <hr>
+  <div *ngIf="reviews.length > 0; else noReviews" class="list-group-item" style="overflow: auto">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>User Name</th>
+          <th>Date</th>
+          <th>Assessments</th>
+          <th>Comment</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let review of reviews">
+          <td>{{review.userId}}</td>
+          <td>{{review.dateOfReview}}</td>
+          <td>
+            <span title="Salary" class="numberCircle ">{{review.assessments.salary}}</span>
+            <span title="Office" class="numberCircle ">{{review.assessments.office}}</span>
+            <span title="Education" class="numberCircle ">{{review.assessments.education}}</span>
+            <span title="Career" class="numberCircle ">{{review.assessments.career}}</span>
+            <span title="Community" class="numberCircle ">{{review.assessments.community}}</span>
+          </td>
+          <td>{{review.comment}}</td>
+          <td *ngIf="userObs | async as user; else loading">
+            <span *ngIf="user.isAdmin">
+              <button style="margin-left :5px " mat-raised-button color="warn" (click)="onDelete(review.id)">Delete</button>
+              <button style="margin-left :10px " mat-raised-button color="primary" (click)="editReview(review)">Edit</button>
+            </span>
+          </td>
+          <ng-template #loading>
+            <span></span>
+          </ng-template>
+          <td>
+            <button type="button" class="btn btn-sm btn-success" (click)="RateReview(review.id, true)"><i class="fa fa-thumbs-up" >{{review.countOfLikes}}</i></button>
+            <button type="button" class="btn btn-sm btn-danger" (click)="RateReview(review.id, false)"><i class="fa fa-thumbs-down" >{{review.countOfDislikes}}</i></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <ng-template #noReviews>
+    <span>No reviews</span>
+  </ng-template>
+</div>
+<div mat-dialog-actions [align]="'end'">
+  <button mat-raised-button color="warn" mat-dialog-close="">Close</button>
+</div>

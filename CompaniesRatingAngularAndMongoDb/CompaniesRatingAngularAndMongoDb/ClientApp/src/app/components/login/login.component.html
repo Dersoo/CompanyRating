@@ -1,0 +1,17 @@
+﻿<div class="wrapper fadeInDown">
+  <form class="form-signin" #loginForm="ngForm" (ngSubmit)="login(loginForm)" >
+    <div class="container-fluid">
+      <h2 class="form-signin-heading">Login</h2>
+      <div *ngIf="invalidLogin" class="alert alert-danger">Invalid login or password</div>
+      <br>
+      <label for="login" class="sr-only">Login</label>
+      <input type="text" id="login" name="login" ngModel class="form-control" placeholder="Login" required autofocus>
+      <br>
+      <label for="password" class="sr-only">Password</label>
+      <input type="password" id="password" name="password" ngModel class="form-control" placeholder="Password" required>
+      <br>
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+    </div>
+  </form>
+  <a (click)="loginAsGuest()" style="cursor: pointer">Continue as guest</a>
+</div>

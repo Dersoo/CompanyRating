@@ -1,0 +1,63 @@
+﻿<h2>{{title}}</h2>
+<div *ngIf="userObs | async as user; else loadingAdd">
+  <span *ngIf="user.isAdmin">
+    <button mat-raised-button color="warn" (click)="addCompany()">Add Company</button>
+  </span>
+</div>
+<ng-template #loadingAdd>
+  <span></span>
+</ng-template>
+<form class="wrap">
+  <div class="search">
+    <h3>Search company by name: </h3>
+    <input class="searchTerm" type="text" name="searchTerm"
+           placeholder="Company name..."
+           [(ngModel)]="searchTerm" (input)="search(searchTerm)" />
+    <button mat-button *ngIf="searchTerm" matSuffix mat-icon-button aria-label="Clear" (click)="searchTerm = ''; search('')">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</form>
+<div class="list-group">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+<!--        <th>Id</th>-->
+        <th>Name</th>
+        <th>Rating</th>
+        <th>Location</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let company of itemsToDisplay">
+<!--        <td>{{company.id}}</td>-->
+        <td>{{company.name}}</td>
+        <td>{{company.rating}}</td>
+        <td>
+          {{company.location.city}}
+          <ng-container *ngIf="company.location.country">,</ng-container>
+          {{company.location.country}}
+        </td>
+        <td *ngIf="userObs | async as user; else loading">
+          <span *ngIf="user.isAdmin">
+            <button style="margin-left :5px " mat-raised-button color="warn" (click)="onDelete(company.id)">Delete</button>
+            <button style="margin-left :10px " mat-raised-button color="primary" (click)="editCompany(company)">Edit</button>
+          </span>
+          <button style="margin-left :10px " mat-raised-button color="primary" (click)="detailsOfCompany(company)">Details</button>
+        </td>
+        <ng-template #loading>
+          <span></span>
+        </ng-template>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div>
+  <pagination
+    [current]="current"
+    [total]="total"
+    (goTo)="onGoTo($event)"
+    (next)="onNext($event)"
+    (previous)="onPrevious($event)"
+  ></pagination>
+</div>
